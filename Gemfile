@@ -76,3 +76,5 @@ gem 'logger'
 gem 'open-uri'
 
 gem 'nokogiri'
+
+gem 'sinatra'

@@ -141,6 +141,8 @@ GEM
     minitest (5.15.0)
     msgpack (1.4.5)
     multipart-post (2.1.1)
+    mustermann (1.1.1)
+      ruby2_keywords (~> 0.0.1)
     net-http-persistent (2.9.4)
     nio4r (2.5.8)
     nokogiri (1.13.3)
@@ -158,6 +160,8 @@ GEM
     rack (2.2.3)
     rack-mini-profiler (2.3.4)
       rack (>= 1.2.0)
+    rack-protection (2.2.0)
+      rack
     rack-proxy (0.7.2)
       rack
     rack-test (1.1.0)
@@ -214,6 +218,11 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
     semantic_range (3.0.0)
+    sinatra (2.2.0)
+      mustermann (~> 1.0)
+      rack (~> 2.2)
+      rack-protection (= 2.2.0)
+      tilt (~> 2.0)
     spring (3.1.1)
     sprockets (4.0.3)
       concurrent-ruby (~> 1.0)
@@ -288,6 +297,7 @@ DEPENDENCIES
   sass-rails (>= 6)
   sdbm
   selenium-webdriver (>= 4.0.0.rc1)
+  sinatra
   spring
   telegram-bot-ruby
   telegram_bot
