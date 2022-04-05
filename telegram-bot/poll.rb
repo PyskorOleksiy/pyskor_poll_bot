@@ -21,7 +21,7 @@ polling_passed = false
 confirm_back = false
 #wrong_command_cheking = false
 
-test_file = File.open('questions.json',"rb")
+test_file = File.open('../json/questions',"rb")
 test_hash = JSON.parse(test_file.read)
 #test_hash_size = test_hash.size
 #start_question = test_hash[0]["question"]
@@ -36,7 +36,7 @@ good_mark = ""
 unique_mark = ""
 test_file.close
 
-polling_themes_file = File.open('polling_themes.json',"rb")
+polling_themes_file = File.open('../json/polling_themes',"rb")
 polling_themes = JSON.parse(polling_themes_file.read)
 polling_themes.each do |polling|
   polling.keys.each do |key|
