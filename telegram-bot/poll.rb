@@ -6,16 +6,16 @@ require File.expand_path('../config/environment', __dir__)
 require 'telegram/bot'
 require 'json'
 
-require './fill_polling_table.rb'
-require './menu.rb'
-require './ukraine_history.rb'
-require './results.rb'
-require './confirm_poll_again.rb'
-require './first_question.rb'
-require './all_next_questions.rb'
-require './checking_message.rb'
-require './finish_polling.rb'
-require './update_users_table.rb'
+require '../telegram-bot/fill_polling_table.rb'
+require '../telegram-bot/menu.rb'
+require '../telegram-bot/ukraine_history.rb'
+require '../telegram-bot/results.rb'
+require '../telegram-bot/confirm_poll_again.rb'
+require '../telegram-bot/first_question.rb'
+require '../telegram-bot/all_next_questions.rb'
+require '../telegram-bot/checking_message.rb'
+require '../telegram-bot/finish_polling.rb'
+require '../telegram-bot/update_users_table.rb'
 
 token = ENV['POLL_BOT_TOKEN']
 
