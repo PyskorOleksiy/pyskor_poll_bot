@@ -78,3 +78,5 @@ gem 'open-uri'
 gem 'nokogiri'
 
 gem 'sinatra'
+
+gem 'dotenv'
