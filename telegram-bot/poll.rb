@@ -6,16 +6,26 @@ require File.expand_path('../config/environment', __dir__)
 require 'telegram/bot'
 require 'json'
 
-require '../bot_files/fill_polling_table.rb'
-require '../bot_files/menu.rb'
-require '../bot_files/ukraine_history.rb'
-require '../bot_files/results.rb'
-require '../bot_files/confirm_poll_again.rb'
-require '../bot_files/first_question.rb'
-require '../bot_files/all_next_questions.rb'
-require '../bot_files/checking_message.rb'
-require '../bot_files/finish_polling.rb'
-require '../bot_files/update_users_table.rb'
+require File.expand_path('../bot_files/fill_polling_table', __dir__)
+require File.expand_path('../bot_files/menu', __dir__)
+require File.expand_path('../bot_files/ukraine_history', __dir__)
+require File.expand_path('../bot_files/results', __dir__)
+require File.expand_path('../bot_files/confirm_poll_again', __dir__)
+require File.expand_path('../bot_files/first_question', __dir__)
+require File.expand_path('../bot_files/all_next_questions', __dir__)
+require File.expand_path('../bot_files/checking_message', __dir__)
+require File.expand_path('../bot_files/finish_polling', __dir__)
+require File.expand_path('../bot_files/update_users_table', __dir__)
+#require '../bot_files/fill_polling_table'
+#require '../bot_files/menu.rb'
+#require '../bot_files/ukraine_history.rb'
+#require '../bot_files/results.rb'
+#require '../bot_files/confirm_poll_again.rb'
+#require '../bot_files/first_question.rb'
+#require '../bot_files/all_next_questions.rb'
+#require '../bot_files/checking_message.rb'
+#require '../bot_files/finish_polling.rb'
+#require '../bot_files/update_users_table.rb'
 
 token = ENV['POLL_BOT_TOKEN']
 
