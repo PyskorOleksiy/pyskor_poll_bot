@@ -90,6 +90,8 @@ Rails.application.configure do
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     to_production_log = ActiveSupport::Logger.new("#{Rails.root}/log/production.log")
+    to_production_log.formatter = config.log_formatter
+    config.logger    = ActiveSupport::TaggedLogging.new(to_production_log)
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
