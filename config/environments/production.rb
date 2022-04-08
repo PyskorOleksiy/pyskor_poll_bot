@@ -88,12 +88,8 @@ Rails.application.configure do
   require "syslog/logger"
   config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'pyskor-poll-bot2022')
 
-  #if ENV["RAILS_LOG_TO_STDOUT"].present?
-    #logger           = ActiveSupport::Logger.new(STDOUT)
-    #logger.formatter = config.log_formatter
-    #config.logger    = ActiveSupport::TaggedLogging.new(logger)
-  #end
-  if ENV["RAILS_ENV"] == "production"
+  if ENV["RAILS_LOG_TO_STDOUT"].present?
+    to_production_log = ActiveSupport::Logger.new("#{Rails.root}/log/production.log")
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
