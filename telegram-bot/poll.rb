@@ -6,16 +6,16 @@ require File.expand_path('../config/environment', __dir__)
 require 'telegram/bot'
 require 'json'
 
-require 'bot_files/fill_polling_table.rb'
-require 'bot_files/menu.rb'
-require 'bot_files/ukraine_history.rb'
-require 'bot_files/results.rb'
-require 'bot_files/confirm_poll_again.rb'
-require 'bot_files/first_question.rb'
-require 'bot_files/all_next_questions.rb'
-require 'bot_files/checking_message.rb'
-require 'bot_files/finish_polling.rb'
-require 'bot_files/update_users_table.rb'
+require '../bot_files/fill_polling_table.rb'
+require '../bot_files/menu.rb'
+require '../bot_files/ukraine_history.rb'
+require '../bot_files/results.rb'
+require '../bot_files/confirm_poll_again.rb'
+require '../bot_files/first_question.rb'
+require '../bot_files/all_next_questions.rb'
+require '../bot_files/checking_message.rb'
+require '../bot_files/finish_polling.rb'
+require '../bot_files/update_users_table.rb'
 
 token = ENV['POLL_BOT_TOKEN']
 
@@ -33,7 +33,7 @@ passed_polling_id = 0
 confirm_back = false
 check_message = false
 
-test_file = File.open('json/questions.json',"rb")
+test_file = File.open('../json/questions.json',"rb")
 test_hash = JSON.parse(test_file.read)
 questions_count = 0
 questions = []
