@@ -46,7 +46,7 @@ unique_mark = ""
 test_file.close
 
 fill_polling_table()
-
+#puts(ENV['RAILS_ENV'])
 loop do
   begin
     Telegram::Bot::Client.run(token, logger: Logger.new($stderr)) do |bot|
