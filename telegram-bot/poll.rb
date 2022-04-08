@@ -43,7 +43,8 @@ passed_polling_id = 0
 confirm_back = false
 check_message = false
 
-test_file = File.open('../json/questions.json',"rb")
+#test_file = File.open('../json/questions.json',"rb")
+test_file = File.open(File.expand_path('../json/questions.json', __dir__),"rb")
 test_hash = JSON.parse(test_file.read)
 questions_count = 0
 questions = []
@@ -64,8 +65,9 @@ loop do
         Thread.start(message) do |message|
           begin
             if message.class == Telegram::Bot::Types::Message and poll == true
-
-              check_message, points = checking_message(bot, message, questions, check_message, points)
+              if message.text != "/stop"
+                check_message, points = checking_message(bot, message, questions, check_message, points)
+              end
 
               if questions_counter == questions_count-2 and message.text != "/stop"
                 finish_polling(bot, message, test_hash, questions_count, polling_name, points)

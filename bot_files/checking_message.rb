@@ -13,7 +13,7 @@ def checking_message(bot, message, questions, check_message, points)
       end
     end
   end
-  if check_message == false
+  if check_message == false and message.text != "/stop"
     bot.api.send_message(chat_id: message.chat.id, text: "\u{2757}Відповідь невірна! Але ви тримайтесь тут\u{270A}")
   end
 
