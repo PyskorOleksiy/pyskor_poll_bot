@@ -9,7 +9,6 @@ require 'json'
 
 require File.expand_path('../bot_files/fill_tables', __dir__)
 require File.expand_path('../bot_files/menu', __dir__)
-require File.expand_path('../bot_files/ukraine_history', __dir__)
 require File.expand_path('../bot_files/results', __dir__)
 require File.expand_path('../bot_files/confirm_poll_again', __dir__)
 require File.expand_path('../bot_files/first_question', __dir__)
