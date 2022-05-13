@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_01_200423) do
+ActiveRecord::Schema.define(version: 2022_05_12_193431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "channels", force: :cascade do |t|
+    t.string "name"
+    t.string "channel_id"
+    t.string "genre"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "messages", default: [], array: true
+    t.text "info"
+  end
 
   create_table "pollings", force: :cascade do |t|
     t.string "name"
@@ -22,16 +32,27 @@ ActiveRecord::Schema.define(version: 2022_04_01_200423) do
     t.string "topic"
   end
 
+  create_table "user_channels", force: :cascade do |t|
+    t.string "name"
+    t.bigint "telegram_id"
+    t.bigint "channel_id", null: false
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["channel_id"], name: "index_user_channels_on_channel_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
-    t.integer "telegram_id"
     t.integer "points"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "polling_id", null: false
     t.string "poll_status"
+    t.bigint "telegram_id"
     t.index ["polling_id"], name: "index_users_on_polling_id"
   end
 
+  add_foreign_key "user_channels", "channels"
   add_foreign_key "users", "pollings"
 end

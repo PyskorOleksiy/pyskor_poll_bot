@@ -2,7 +2,7 @@ def results(bot, message)
   kb =
   [
     [
-      Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Назад', callback_data: "back")
+      Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Назад', callback_data: "back_to_genres")
     ]
   ]
   markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb)
