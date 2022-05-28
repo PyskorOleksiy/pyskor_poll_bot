@@ -9,6 +9,7 @@ require 'json'
 
 require File.expand_path('../bot_files/fill_tables', __dir__)
 require File.expand_path('../bot_files/menu', __dir__)
+require File.expand_path('../bot_files/stop', __dir__)
 require File.expand_path('../bot_files/results', __dir__)
 require File.expand_path('../bot_files/confirm_poll_again', __dir__)
 require File.expand_path('../bot_files/first_question', __dir__)
@@ -17,6 +18,9 @@ require File.expand_path('../bot_files/checking_message', __dir__)
 require File.expand_path('../bot_files/finish_polling', __dir__)
 require File.expand_path('../bot_files/update_users_table', __dir__)
 require File.expand_path('../bot_files/telegram_channels', __dir__)
+require File.expand_path('../bot_files/hashtags', __dir__)
+require File.expand_path('../bot_files/check_channel_message', __dir__)
+require File.expand_path('../bot_files/comands_and_check_hashtags', __dir__)
 
 token = ENV['POLL_BOT_TOKEN']
 
@@ -28,6 +32,8 @@ previously_genres_markup = nil
 previously_categories_markup = nil
 previously_chapters_markup = nil
 prev_didnot_subscribed_markup = nil
+previously_hashtags_markup = nil
+prev_interesting_htags_markup = nil
 previously_markup_genre_text = ""
 previously_markup_category_text = ""
 previously_markup_chapter_text = ""
@@ -53,6 +59,7 @@ test_file.close
 
 fill_polling_table()
 fill_telegram_channel_table()
+fill_hashtags_table()
 #puts(ENV['RAILS_ENV'])
 loop do
   begin
@@ -78,24 +85,16 @@ loop do
                 points = 0
               end
 
-          elsif message.class == Telegram::Bot::Types::Message and poll == false
+            elsif message.class == Telegram::Bot::Types::Message and poll == false
               #puts(message.chat.username)
               #puts(message.chat.id)
               #puts(message.class)
-              if message.text == "/start"
-                hello_message = "Привіт, #{message.from.first_name}!"
-                bot.api.send_message(chat_id: message.chat.id, text: hello_message)
-              elsif message.text == "/hellobot"
-                bot.api.send_message(chat_id: message.chat.id, text: "\u{1F600}")
-                bot.api.send_message(chat_id: message.chat.id, text: "\u{1F44B}")
-              elsif message.text == "/menu"
-                previously_genres_markup = menu(bot, message)
-              elsif message.text == "/messages"
+
+              if message.chat.id.to_s[0] != '-'
+                previously_genres_markup = comands_and_check_hashtags(bot, message)
 
               else
-                if message.chat.id.to_s[0] != '-'
-                  bot.api.send_message(chat_id: message.chat.id, text: "\u{26D4} Невірна команда!")
-                end
+                check_channel_message(bot, message)
               end
             end
 
@@ -109,6 +108,21 @@ loop do
               if message.data == "Telegram-канали"
                 previously_chapters_markup = telegram_channels(bot, message)
                 previously_markup_category_text = message.data
+
+              elsif message.data.include?("#")
+                if message.data == "#hashtags"
+                  previously_hashtags_markup = hashtags(bot, message, previously_markup_genre_text)
+                elsif message.data == "#interesting"
+                  interesting_hashtags(bot, message, previously_markup_genre_text)
+                else
+                  if message.data.split("#")[0] == "" and !message.data.include?("delete")
+                    add_hashtag_to_interesting(bot, message, previously_markup_genre_text)
+                  elsif message.data.split("#")[0] == "interesting"
+                    confirm_delete_hashtag(bot, message, previously_markup_genre_text)
+                  elsif message.data.include?("delete")
+                    delete_hashtag(bot, message, previously_markup_genre_text)
+                  end
+                end
 
               elsif message.data == "results"
                 results(bot, message)
@@ -155,6 +169,14 @@ loop do
 
                 elsif message.data == "back_to_didnot_subscribed"
                   bot.api.edit_message_text(chat_id: message.from.id, text: "Канали, на які ви НЕ ПІДПИСАНІ", message_id: message.message.message_id, reply_markup: prev_didnot_subscribed_markup)
+                  polling_passed = false
+
+                elsif message.data == "back_to_hashtags"
+                  previously_hashtags_markup = hashtags(bot, message, previously_markup_genre_text)
+                  polling_passed = false
+
+                elsif message.data == "back_to_interesting_hashtags"
+                  interesting_hashtags(bot, message, previously_markup_genre_text)
                   polling_passed = false
                 end
               end

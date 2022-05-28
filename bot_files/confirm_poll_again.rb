@@ -15,7 +15,6 @@ def confirm_poll_again(bot, message, polling_name, polling_passed, passed_pollin
       bot.api.edit_message_text(chat_id: message.from.id, text: "\u{2757}\u{2757}\u{2757} Ви вже проходили дане опитування! Хочете пройти ще раз? Всі бали, включно з балами за попереднє опитування будуть анульовані після переривання опитування!", message_id: message.message.message_id, reply_markup: confirm_markup)
     end
   end
-  puts(passed_polling_id)
 
   return polling_passed, passed_polling_id
 end

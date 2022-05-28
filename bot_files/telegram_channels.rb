@@ -8,11 +8,14 @@ def telegram_channels(bot, message)
       Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Канали, на які ви НЕ ПІДПИСАНІ', callback_data: "didn't subscribed")
     ],
     [
+      Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Хештеги(#)', callback_data: "#hashtags")
+    ],
+    [
       Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Назад', callback_data: "back_to_categories")
     ]
   ]
-  markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb)
 
+  markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb)
   bot.api.edit_message_text(chat_id: message.from.id, text: "Telegram-канали", message_id: message.message.message_id, reply_markup: markup)
   return markup
 end

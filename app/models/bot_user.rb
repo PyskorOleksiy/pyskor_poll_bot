@@ -1,0 +1,2 @@
+class BotUser < ApplicationRecord
+end

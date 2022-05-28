@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_12_193431) do
+ActiveRecord::Schema.define(version: 2022_05_26_173414) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bot_users", force: :cascade do |t|
+    t.string "name"
+    t.bigint "telegram_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "htags", default: [], array: true
+  end
 
   create_table "channels", force: :cascade do |t|
     t.string "name"
@@ -23,6 +31,13 @@ ActiveRecord::Schema.define(version: 2022_05_12_193431) do
     t.datetime "updated_at", precision: 6, null: false
     t.text "messages", default: [], array: true
     t.text "info"
+  end
+
+  create_table "hashtags", force: :cascade do |t|
+    t.string "name"
+    t.string "genre"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "pollings", force: :cascade do |t|

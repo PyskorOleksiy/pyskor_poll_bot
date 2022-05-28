@@ -35,3 +35,24 @@ def fill_telegram_channel_table()
   end
   channels_themes_file.close
 end
+
+def fill_hashtags_table()
+  hashtags_file = File.open(File.expand_path('../json/hashtags.json', __dir__), "rb")
+  hashtags = JSON.parse(hashtags_file.read)
+  hashtags.each do |genre|
+    genre.keys.each do |key|
+      if !Hashtag.exists?(genre: key)
+        genre[key].each do |hashtag|
+          if !Hashtag.exists?(name: hashtag)
+            Hashtag.create(name: hashtag, genre: key)
+          else
+            next
+          end
+        end
+      else
+        next
+      end
+    end
+  end
+  hashtags_file.close
+end
