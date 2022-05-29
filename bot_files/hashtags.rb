@@ -163,7 +163,7 @@ def add_hashtag(bot, message)
           if user_status != "left"
             user.htags.push(htag)
             user.save
-            bot.api.send_message(chat_id: message.chat.id, text: "\u{2705} Готово! Хештег додано в «Теми, які вас цікавлять»")
+            bot.api.send_message(chat_id: message.chat.id, text: "\u{2705} Готово! Хештег успішно додано в «Теми, які вас цікавлять» жанру «#{genre}»")
             #interesting_hashtags(bot, message, genre)
             subscribed = true
             break
