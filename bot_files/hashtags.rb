@@ -175,7 +175,11 @@ def add_hashtag(bot, message)
           bot.api.send_message(chat_id: message.chat.id, text: "\u{26D4} Ви не підписані на жоден канал жанру «#{genre}»!")
         end
       else
-        bot.api.send_message(chat_id: message.chat.id, text: "\u{26D4} Бот не є адміністратором жодного Telegram-каналу жанру «#{genre}»! Тому він не може приймати жодне повідомлення від будь-якого такого Telegram-каналу")
+        text = "\u{26D4} Бот не є адміністратором жодного Telegram-каналу жанру «#{genre}»! Тому він не може приймати жодне повідомлення від будь-якого такого Telegram-каналу." +
+               + "\n Можливо, ви неправильно ввели назву жанру або ввели її правильно, але не за шаблоном:" +
+               + " - #назвахештегу_Жанр_каналу\n" +
+               + " - #назвахештегу_Жанр_Каналу"
+        bot.api.send_message(chat_id: message.chat.id, text: text)
       end
     else
       bot.api.send_message(chat_id: message.chat.id, text: "\u{26A0} Цей хештег вже знаходиться в «Темах, які вас цікавлять» жанру «#{genre}»!")
