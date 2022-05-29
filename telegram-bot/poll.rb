@@ -9,7 +9,10 @@ require 'json'
 
 require File.expand_path('../bot_files/fill_tables', __dir__)
 require File.expand_path('../bot_files/menu', __dir__)
+<<<<<<< HEAD
 require File.expand_path('../bot_files/stop', __dir__)
+=======
+>>>>>>> eb95b46f504f6a7d25009ede235359c0820c43d0
 require File.expand_path('../bot_files/results', __dir__)
 require File.expand_path('../bot_files/confirm_poll_again', __dir__)
 require File.expand_path('../bot_files/first_question', __dir__)
