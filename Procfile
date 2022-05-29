@@ -1,2 +1,2 @@
-web: ruby my_app.rb -p $PORT
+web: bundle exec puma -C config/puma.rb
 worker: ruby telegram-bot/poll.rb
