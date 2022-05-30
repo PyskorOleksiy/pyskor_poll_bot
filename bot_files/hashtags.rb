@@ -53,7 +53,7 @@ def hashtags(bot, message, previously_markup_genre_text)
   markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb)
 
   bot.api.edit_message_text(chat_id: message.from.id, text: text, message_id: message.message.message_id, reply_markup: markup)
-  return markup
+  #return markup
 end
 
 def add_hashtag_to_interesting(bot, message, previously_markup_genre_text)

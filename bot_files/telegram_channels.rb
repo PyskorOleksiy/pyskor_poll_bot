@@ -57,16 +57,22 @@ def put_in_channels_tables(bot, message, previously_markup_genre_text)
     end
   end
 
-  channels = check_subscribed_channels(bot, message, previously_markup_genre_text)
-  return channels
+  check_subscribed_channels(bot, message, previously_markup_genre_text)
 end
 
 def check_subscribed_channels(bot, message, previously_markup_genre_text)
   channels = []
   kb = []
+  users = []
   markup = nil
-  previously_markup_chapters_text = message.data
-  users = UserChannel.where(telegram_id: message.from.id, status: message.data)
+  previously_markup_chapters_text = ""
+
+  if message.data != "back_to_didnot_subscribed"
+    users = UserChannel.where(telegram_id: message.from.id, status: message.data)
+  else
+    users = UserChannel.where(telegram_id: message.from.id, status: "didn't subscribed")
+  end
+
   users.each do |user|
     channel = Channel.find_by(id: user.channel_id, genre: previously_markup_genre_text)
     if channel.class == NilClass
@@ -76,6 +82,7 @@ def check_subscribed_channels(bot, message, previously_markup_genre_text)
   end
 
   if message.data == "subscribed"
+    previously_markup_chapters_text = "Канали, на які ви ПІДПИСАНІ"
     channels.each do |channel|
       url = "https://t.me/" + channel.channel_id.delete("@")
       kb.push(
@@ -85,7 +92,8 @@ def check_subscribed_channels(bot, message, previously_markup_genre_text)
       )
     end
 
-  elsif message.data == "didn't subscribed"
+  elsif message.data == "didn't subscribed" or message.data == "back_to_didnot_subscribed"
+    previously_markup_chapters_text = "Канали, на які ви НЕ ПІДПИСАНІ"
     channels.each do |channel|
       kb.push(
         [
@@ -101,14 +109,7 @@ def check_subscribed_channels(bot, message, previously_markup_genre_text)
     ]
   )
   markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb)
-  if previously_markup_chapters_text == "subscribed"
-    previously_markup_chapters_text = "Канали, на які ви ПІДПИСАНІ"
-  elsif previously_markup_chapters_text == "didn't subscribed"
-    previously_markup_chapters_text = "Канали, на які ви НЕ ПІДПИСАНІ"
-  end
   bot.api.edit_message_text(chat_id: message.from.id, text: previously_markup_chapters_text, message_id: message.message.message_id, reply_markup: markup)
-
-  return channels
 end
 
 def channel_info(bot, message)

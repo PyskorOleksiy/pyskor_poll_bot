@@ -18,6 +18,31 @@ def menu(bot, message)
   return previously_genres_markup
 end
 
+def back_callbacks(bot, message, previously_genres_markup, previously_categories_markup, previously_chapters_markup, previously_markup_genre_text, previously_markup_category_text)
+  if message.data == "back_to_genres"
+    bot.api.edit_message_text(chat_id: message.from.id, text: "Опитування", message_id: message.message.message_id, reply_markup: previously_genres_markup)
+    #restart = false
+
+  elsif message.data == "back_to_categories"
+    bot.api.edit_message_text(chat_id: message.from.id, text: previously_markup_genre_text, message_id: message.message.message_id, reply_markup: previously_categories_markup)
+
+  elsif message.data == "back_to_chapters"
+    bot.api.edit_message_text(chat_id: message.from.id, text: previously_markup_category_text, message_id: message.message.message_id, reply_markup: previously_chapters_markup)
+
+  #elsif message.data == "back_to_didnot_subscribed"
+    #put_in_channels_tables(bot, message, previously_markup_genre_text)
+    #bot.api.edit_message_text(chat_id: message.from.id, text: "Канали, на які ви НЕ ПІДПИСАНІ", message_id: message.message.message_id, reply_markup: prev_didnot_subscribed_markup)
+    #polling_passed = false
+
+  elsif message.data == "back_to_hashtags"
+    #previously_hashtags_markup = hashtags(bot, message, previously_markup_genre_text)
+    hashtags(bot, message, previously_markup_genre_text)
+
+  elsif message.data == "back_to_interesting_hashtags"
+    interesting_hashtags(bot, message, previously_markup_genre_text)
+  end
+end
+
 def genres(bot, message)
   kb = []
   if message.data == "Історія України"

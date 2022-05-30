@@ -86,9 +86,6 @@ loop do
               end
 
             elsif message.class == Telegram::Bot::Types::Message and poll == false
-              #puts(message.chat.username)
-              #puts(message.chat.id)
-              #puts(message.class)
 
               if message.chat.id.to_s[0] != '-'
                 previously_genres_markup = comands_and_check_hashtags(bot, message)
@@ -109,6 +106,13 @@ loop do
                 previously_chapters_markup = telegram_channels(bot, message)
                 previously_markup_category_text = message.data
 
+              elsif message.data == "results"
+                results(bot, message)
+              end
+
+              if message.data.include?("subscribed")
+                put_in_channels_tables(bot, message, previously_markup_genre_text)
+
               elsif message.data.include?("#")
                 if message.data == "#hashtags"
                   previously_hashtags_markup = hashtags(bot, message, previously_markup_genre_text)
@@ -123,29 +127,6 @@ loop do
                     delete_hashtag(bot, message, previously_markup_genre_text)
                   end
                 end
-
-              elsif message.data == "results"
-                results(bot, message)
-              end
-
-              if message.data.include?("subscribed")
-                channels = put_in_channels_tables(bot, message, previously_markup_genre_text)
-                kb = []
-                if message.data == "didn't subscribed"
-                  channels.each do |channel|
-                    kb.push(
-                      [
-                        Telegram::Bot::Types::InlineKeyboardButton.new(text: channel.name, callback_data: channel.channel_id)
-                      ]
-                    )
-                  end
-                  kb.push(
-                    [
-                      Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Назад', callback_data: "back_to_chapters")
-                    ]
-                  )
-                  prev_didnot_subscribed_markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb)
-                end
               end
 
               if message.data[0] == '@'
@@ -154,34 +135,10 @@ loop do
 
               md_split = message.data.split('_')
               if md_split[0] == "back"
-                if message.data == "back_to_genres"
-                  bot.api.edit_message_text(chat_id: message.from.id, text: "Опитування", message_id: message.message.message_id, reply_markup: previously_genres_markup)
-                  polling_passed = false
-                  #restart = false
-
-                elsif message.data == "back_to_categories"
-                  bot.api.edit_message_text(chat_id: message.from.id, text: previously_markup_genre_text, message_id: message.message.message_id, reply_markup: previously_categories_markup)
-                  polling_passed = false
-
-                elsif message.data == "back_to_chapters"
-                  bot.api.edit_message_text(chat_id: message.from.id, text: previously_markup_category_text, message_id: message.message.message_id, reply_markup: previously_chapters_markup)
-                  polling_passed = false
-
-                elsif message.data == "back_to_didnot_subscribed"
-                  bot.api.edit_message_text(chat_id: message.from.id, text: "Канали, на які ви НЕ ПІДПИСАНІ", message_id: message.message.message_id, reply_markup: prev_didnot_subscribed_markup)
-                  polling_passed = false
-
-                elsif message.data == "back_to_hashtags"
-                  previously_hashtags_markup = hashtags(bot, message, previously_markup_genre_text)
-                  polling_passed = false
-
-                elsif message.data == "back_to_interesting_hashtags"
-                  interesting_hashtags(bot, message, previously_markup_genre_text)
-                  polling_passed = false
-                end
+                back_callbacks(bot, message, previously_genres_markup, previously_categories_markup, previously_chapters_markup, previously_markup_genre_text, previously_markup_category_text)
+                polling_passed = false
               end
 
-              md_split = message.data.split('_')
               if test_hash[0].keys.include?(md_split[0]) == true
                 polling_name = md_split[0]
                 #if polling_passed == true
